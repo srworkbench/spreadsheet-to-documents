@@ -1,0 +1,11 @@
+Service renewal reminder
+
+Hello {{contact_role}},
+
+The {{service}} service for {{organization}} is scheduled for renewal on {{renewal_date}}.
+
+Please review the service details and let us know whether any updates are needed before renewal.
+
+Reference {{record_id}}
+
+This document contains fictional demonstration data.
