@@ -137,8 +137,10 @@ def make_plan(baseline: Path, source: Path, template: Path, sheet=None):
 
 def review(baseline: Path, source: Path, template: Path, output: Path, sheet=None):
     from review_page import render_page
+    from review_image import render_images
     plan, _, _ = make_plan(baseline, source, template, sheet)
     def populate(stage):
+        render_images(plan, stage / "images")
         (stage / "plan.json").write_bytes(encode(plan))
         (stage / "index.html").write_text(render_page(plan), encoding="utf-8")
     publish_directory(output, populate)

@@ -2,7 +2,9 @@
 
 Change a date in a spreadsheet after generating a batch of Word documents. Which files need rebuilding? Did anyone edit one of them in Word?
 
-This local tool compares the next batch with a saved baseline. Its interactive HTML report traces changed source values to highlighted words in each document. Applying the review creates a separate revision, reuses unaffected files byte for byte, and stops if a baseline document was edited or went missing.
+This local tool compares the next batch with a saved baseline. Its native PNG reports show changed source values alongside the complete before-and-after text. An optional HTML report adds word highlighting and record selection. Applying the review creates a separate revision, reuses unaffected files byte for byte, and stops if a baseline document was edited or went missing.
+
+![Native report generated from the invented workshop demo](docs/change-review.png)
 
 ## Try the change review
 
@@ -14,7 +16,7 @@ The included demo creates twelve fictional workshop notices. A renewal date chan
 | DEMO-009 unused note | Source change shown; document text unchanged | Reuse the original bytes |
 | A manual Word edit in a separate baseline | Conflict selected; rebuild paused | Stop without creating a new revision |
 
-Select a document in the impact map to inspect its before-and-after text. Use **Show affected only** to narrow the review. The report is a static snapshot of the real comparison; changing source files requires a new review. It does not send data anywhere or generate documents when opened.
+In the optional HTML report, select a document in the impact map to inspect its before-and-after text. Use **Show affected only** to narrow the review. The report is a static snapshot of the real comparison; changing source files requires a new review. It does not send data anywhere or generate documents when opened.
 
 ## What this adds to mail merge
 
@@ -37,10 +39,14 @@ python demo.py output/revision-demo
 
 On Windows, activate the environment with `.venv\Scripts\activate`.
 
-Open these files in a browser:
+Inspect the PNG files in `output/revision-demo/review/images/` and `output/revision-demo/conflict-review/images/` in any image viewer. They are generated directly from the same plan used by `apply`, need no browser or JavaScript, and include complete before-and-after text. Long records produce taller images.
+
+Optional browser reports:
 
 - `output/revision-demo/review/index.html`: one document needs rebuilding, eleven can be reused.
 - `output/revision-demo/conflict-review/index.html`: a manual edit prevents rebuilding.
+
+The [manual-edit report](docs/manual-edit-conflict.png) shows the paused batch.
 
 The demo also applies the first review. Open `output/revision-demo/next-revision/DEMO-004.docx` to see the revised date in the editable document. The baseline remains at `output/revision-demo/baseline/`. Run the demo again with a different output path; it will not overwrite the first run.
 
@@ -55,7 +61,7 @@ python revisions.py build records.csv template.txt output/v1
 # After editing the spreadsheet or template, inspect the proposed changes.
 python revisions.py review output/v1 records.csv template.txt output/review-v2
 
-# Open output/review-v2/index.html before applying.
+# Inspect output/review-v2/images/ and plan.json before applying.
 python revisions.py apply output/review-v2/plan.json output/v2
 ```
 
@@ -72,6 +78,8 @@ python generate.py examples/records.csv examples/template.txt output/one-off
 ```
 
 ## Limits and data handling
+
+- This release was visually checked through its native PNG reports and generated Word output. Browser interaction and narrow-screen HTML layout have not been visually verified. Use the PNG reports or JSON plan for the reviewed workflow.
 
 - Templates support plain paragraphs and simple placeholders. Existing Word layouts, tables, images, conditional logic and rich template formatting are not supported.
 - The preview compares generated text, not Word pagination or the content of manual edits. Inspect the actual DOCX files before using them.

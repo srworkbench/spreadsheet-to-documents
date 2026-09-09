@@ -43,5 +43,5 @@ if __name__ == "__main__":
         create_demo(args.output)
     except (ValueError, OSError) as exc:
         parser.exit(2, f"Cannot build demo: {exc}\n")
-    print(f"Open {args.output / 'review' / 'index.html'} for the change map")
-    print(f"Open {args.output / 'conflict-review' / 'index.html'} for the hand-edit conflict")
+    print(f"Inspect {args.output / 'review' / 'images'} for the change reports")
+    print(f"Inspect {args.output / 'conflict-review' / 'images'} for the hand-edit conflict")
